@@ -14,7 +14,7 @@ public class Controlador {
      * @param modelo El objeto Modelo.
      * @param vista  El objeto Vista.
      */
-    public Controlador(Modelo modelo,Vista vista){
+    public Controlador(Modelo modelo, Vista vista) {
         this.modelo = modelo;
         this.vista = vista;
     }
@@ -29,6 +29,7 @@ public class Controlador {
                 List<String> datosJugador = modelo.cargarJugador(nombreJugador);
                 vista.mostrarMensaje("Bienvenido de nuevo, " + datosJugador.get(0));
             } catch (IOException e) {
+                e.printStackTrace(); // Muestra detalles del error en consola
                 vista.mostrarMensaje("Error al cargar los datos del jugador.");
             }
         } else {
@@ -37,6 +38,7 @@ public class Controlador {
                 modelo.guardarJugador(nombreJugador, gmail);
                 vista.mostrarMensaje("Jugador registrado con éxito.");
             } catch (IOException e) {
+                e.printStackTrace(); // Muestra detalles del error en consola
                 vista.mostrarMensaje("Error al guardar los datos del jugador.");
             }
         }
@@ -47,6 +49,7 @@ public class Controlador {
             List<String> escenario = modelo.cargarEscenario("escenario1");
             vista.mostrarEscenario(escenario);
         } catch (IOException e) {
+            e.printStackTrace();
             vista.mostrarMensaje("Error al manejar el escenario.");
         }
     }

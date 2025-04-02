@@ -14,13 +14,21 @@ public class Modelo {
     private Path rutaDirectorioPartidas;
 
     /**
-     * Constructor que inicializa las rutas de los directorios de escenarios y
-     * jugadores.
+     * Constructor que inicializa las rutas de los directorios de escenarios y jugadores.
      */
     public Modelo() {
         rutaDirectorioEscenarios = Paths.get("escenarios");
         rutaDirectorioJugadores = Paths.get("jugadores");
         rutaDirectorioPartidas = Paths.get("partidas");
+
+        // Crear directorios si no existen
+        try {
+            Files.createDirectories(rutaDirectorioEscenarios);
+            Files.createDirectories(rutaDirectorioJugadores);
+            Files.createDirectories(rutaDirectorioPartidas);
+        } catch (IOException e) {
+            System.err.println("Error al crear los directorios: " + e.getMessage());
+        }
     }
 
     /**
@@ -36,15 +44,15 @@ public class Modelo {
         Files.write(rutaEscenario, List.of(filas + " " + columnas));
 
         for (int i = 0; i < filas; i++) {
-            String linea = "";
+            StringBuilder linea = new StringBuilder();
             for (int j = 0; j < columnas; j++) {
                 if (Math.random() < 0.2) {
-                    linea += "O"; // Obstáculo
+                    linea.append("O"); // Obstáculo
                 } else {
-                    linea += " "; // Espacio
+                    linea.append(" "); // Espacio
                 }
             }
-            Files.write(rutaEscenario, List.of(linea), StandardOpenOption.APPEND);
+            Files.write(rutaEscenario, List.of(linea.toString()), StandardOpenOption.APPEND);
         }
     }
 
@@ -68,7 +76,12 @@ public class Modelo {
      * @throws IOException Si ocurre un error al escribir el archivo.
      */
     public void guardarJugador(String nombre, String gmail) throws IOException {
-        Path rutaJugador = rutaDirectorioJugadores.resolve(nombre + ".txt");
+        // Crear directorio si no existe
+        if (!Files.exists(rutaDirectorioJugadores)) {
+            Files.createDirectories(rutaDirectorioJugadores);
+        }
+
+        Path rutaJugador = rutaDirectorioJugadores.resolve(limpiarNombre(nombre) + ".txt");
         Files.write(rutaJugador, List.of(nombre, gmail));
     }
 
@@ -80,7 +93,7 @@ public class Modelo {
      * @throws IOException Si ocurre un error al leer el archivo.
      */
     public List<String> cargarJugador(String nombre) throws IOException {
-        Path rutaJugador = rutaDirectorioJugadores.resolve(nombre + ".txt");
+        Path rutaJugador = rutaDirectorioJugadores.resolve(limpiarNombre(nombre) + ".txt");
         return Files.readAllLines(rutaJugador);
     }
 
@@ -91,7 +104,17 @@ public class Modelo {
      * @return true si el archivo existe, false en caso contrario.
      */
     public boolean existeJugador(String nombre) {
-        Path rutaJugador = rutaDirectorioJugadores.resolve(nombre + ".txt");
+        Path rutaJugador = rutaDirectorioJugadores.resolve(limpiarNombre(nombre) + ".txt");
         return Files.exists(rutaJugador);
+    }
+
+    /**
+     * Limpia el nombre del jugador para que sea un nombre de archivo válido.
+     *
+     * @param nombre Nombre del jugador.
+     * @return Nombre limpio sin caracteres especiales.
+     */
+    public static String limpiarNombre(String nombre) {
+        return nombre.replaceAll("[^a-zA-Z0-9_-]", "_"); // Reemplaza caracteres inválidos
     }
 }

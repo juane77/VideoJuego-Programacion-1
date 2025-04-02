@@ -25,7 +25,7 @@ public class Vista {
         }
     }
 
-     /**
+    /**
      * Pide al usuario que ingrese su nombre de usuario.
      *
      * @return El nombre de usuario ingresado por el usuario.
@@ -54,4 +54,3 @@ public class Vista {
         System.out.println(mensaje);
     }
 }
-
