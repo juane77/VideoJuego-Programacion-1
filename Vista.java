@@ -24,5 +24,34 @@ public class Vista {
             System.out.println(linea);
         }
     }
+
+     /**
+     * Pide al usuario que ingrese su nombre de usuario.
+     *
+     * @return El nombre de usuario ingresado por el usuario.
+     */
+    public String pedirNombreJugador() {
+        System.out.print("Introduce tu nombre de usuario: ");
+        return scanner.nextLine();
+    }
+
+    /**
+     * Pide al usuario que ingrese su Gmail.
+     *
+     * @return El Gmail ingresado por el usuario.
+     */
+    public String pedirGmail() {
+        System.out.print("Introduce tu Gmail: ");
+        return scanner.nextLine();
+    }
+
+    /**
+     * Muestra un mensaje en la consola.
+     *
+     * @param mensaje El mensaje a mostrar.
+     */
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
 }
 

@@ -5,9 +5,15 @@
  * @version 1.0
  */
 public class App {
+    /**
+     * Método principal que inicia la aplicación.
+     *
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         Modelo modelo = new Modelo();
         Vista vista = new Vista();
         Controlador controlador = new Controlador(modelo, vista);
+        controlador.ejecutar();
     }
 }

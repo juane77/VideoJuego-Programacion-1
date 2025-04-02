@@ -11,6 +11,7 @@ import java.util.List;
 public class Modelo {
     private Path rutaDirectorioEscenarios;
     private Path rutaDirectorioJugadores;
+    private Path rutaDirectorioPartidas;
 
     /**
      * Constructor que inicializa las rutas de los directorios de escenarios y
@@ -19,6 +20,7 @@ public class Modelo {
     public Modelo() {
         rutaDirectorioEscenarios = Paths.get("escenarios");
         rutaDirectorioJugadores = Paths.get("jugadores");
+        rutaDirectorioPartidas = Paths.get("partidas");
     }
 
     /**
