@@ -9,7 +9,7 @@ public class Controlador {
     private Vista vista;
 
     /**
-     * Constructor que inicializa el Modelo y la Vista.
+     * Constructor para crear un nuevo controlador.
      *
      * @param modelo El objeto Modelo.
      * @param vista  El objeto Vista.
@@ -24,30 +24,45 @@ public class Controlador {
      */
     public void ejecutar() {
         String nombreJugador = vista.pedirNombreJugador();
+        Jugador jugador;
+
         if (modelo.existeJugador(nombreJugador)) {
             try {
-                List<String> datosJugador = modelo.cargarJugador(nombreJugador);
-                vista.mostrarMensaje("Bienvenido de nuevo, " + datosJugador.get(0));
+                jugador = modelo.cargarJugador(nombreJugador);
+                vista.mostrarMensaje("Bienvenido de nuevo, " + jugador.getNombre());
             } catch (IOException e) {
-                e.printStackTrace(); // Muestra detalles del error en consola
+                e.printStackTrace();
                 vista.mostrarMensaje("Error al cargar los datos del jugador.");
+                return;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                vista.mostrarMensaje("Error al cargar los datos del jugador.");
+                return;
             }
         } else {
             String gmail = vista.pedirGmail();
+            jugador = new Jugador(nombreJugador, gmail);
             try {
-                modelo.guardarJugador(nombreJugador, gmail);
+                modelo.guardarJugador(jugador);
                 vista.mostrarMensaje("Jugador registrado con éxito.");
             } catch (IOException e) {
-                e.printStackTrace(); // Muestra detalles del error en consola
+                e.printStackTrace();
                 vista.mostrarMensaje("Error al guardar los datos del jugador.");
+                return;
             }
         }
 
-        // Crear y mostrar un escenario de ejemplo
         try {
-            modelo.crearEscenario("escenario1", 5, 10);
-            List<String> escenario = modelo.cargarEscenario("escenario1");
-            vista.mostrarEscenario(escenario);
+            List<String> codigoEscenario = modelo.cargarEscenario("escenario1");
+            Escenario escenario = new Escenario("escenario1", codigoEscenario, jugador);
+            vista.mostrarEscenario(escenario.obtenerEscenario());
+
+            boolean jugando = true;
+            while (jugando) {
+                char direccion = vista.pedirDireccion();
+                escenario.moverJugador(direccion);
+                vista.mostrarEscenario(escenario.obtenerEscenario());
+            }
         } catch (IOException e) {
             e.printStackTrace();
             vista.mostrarMensaje("Error al manejar el escenario.");
