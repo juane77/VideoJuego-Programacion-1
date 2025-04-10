@@ -15,7 +15,7 @@ public class Vista {
     }
 
     /**
-     * Muestra un escenario en la consola.
+     * Muestra el escenario en la consola.
      *
      * @param escenario Una lista de líneas que representan el escenario.
      */
@@ -52,5 +52,19 @@ public class Vista {
      */
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    /**
+     * Pide al usuario que elija una dirección para mover al jugador.
+     *
+     * @return La dirección elegida por el usuario ('W', 'A', 'S', 'D').
+     */
+    public char pedirDireccion() {
+        System.out.print("Elige una dirección (W/A/S/D) y presiona Enter: ");
+        String input = scanner.nextLine();
+        if (input.length() > 0) {
+            return input.charAt(0);
+        }
+        return ' ';
     }
 }
