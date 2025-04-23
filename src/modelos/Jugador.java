@@ -1,3 +1,4 @@
+package src.modelos;
 import java.io.Serializable;
 
 public class Jugador implements Serializable {
