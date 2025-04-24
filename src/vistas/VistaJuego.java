@@ -44,13 +44,13 @@ public class VistaJuego extends StackPane {
                         rect.setFill(Color.GRAY);
                         break;
                     case 'O':
-                        rect.setFill(Color.DARKRED);
+                        rect.setFill(Color.GREEN);
                         break;
                     case '@':
-                        rect.setFill(Color.LIGHTBLUE);
+                        rect.setFill(Color.BLUE);
                         break;
                     default:
-                        rect.setFill(Color.BEIGE);
+                        rect.setFill(Color.LIGHTGRAY);
                 }
                 StackPane celda = new StackPane(rect, texto);
                 grid.add(celda, x, y);

@@ -97,4 +97,17 @@ public class Escenario {
             }
         }
     }
+
+    public boolean jugadorHaGanado() {
+    return obtenerEscenario().stream().anyMatch(linea -> linea.contains("@O"));
+    }
+    
+    public boolean jugadorHaPerdido() {
+   
+    return false; 
+    }
+
+    public boolean jugadorEnSalida() {
+        return matriz[jugador.getPosicionY() + 1][jugador.getPosicionX() + 1].equals("O");
+    }
 }
