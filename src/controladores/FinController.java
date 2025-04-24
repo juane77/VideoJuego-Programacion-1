@@ -2,6 +2,7 @@ package src.controladores;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.application.Platform;
 import src.App;
 
 public class FinController {
@@ -15,6 +16,6 @@ public class FinController {
     @FXML
     public void initialize() {
         btnReiniciar.setOnAction(e -> App.mostrarVista("Inicio.fxml"));
-        btnSalir.setOnAction(e -> System.exit(0));
+        btnSalir.setOnAction(e -> Platform.exit());
     }
 }

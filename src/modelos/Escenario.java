@@ -39,6 +39,7 @@ public class Escenario {
                     cantidad = cantidad * 10 + (lineaCodigo.charAt(indice) - '0');
                     indice++;
                 }
+                if (indice >= lineaCodigo.length()) break; // Evitar error
                 char tipo = lineaCodigo.charAt(indice++);
                 for (int k = 0; k < cantidad && posicion < columnas + 1; k++) {
                     switch (tipo) {
@@ -53,6 +54,7 @@ public class Escenario {
                 matriz[i + 1][posicion++] = "-";
             }
         }
+
         matriz[jugador.getPosicionY() + 1][jugador.getPosicionX() + 1] = "@";
     }
 

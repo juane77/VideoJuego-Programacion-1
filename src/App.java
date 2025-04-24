@@ -29,6 +29,7 @@ public class App extends Application {
             if (nombreFXML.equals("Juego.fxml")) {
                 root.requestFocus();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
