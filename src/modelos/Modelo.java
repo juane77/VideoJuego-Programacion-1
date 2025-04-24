@@ -9,65 +9,37 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Modelo {
-    private Path rutaDirectorioEscenarios;
-    private Path rutaDirectorioJugadores;
-    private Path rutaDirectorioPartidas;
+    private final Path rutaDirectorioEscenarios = Paths.get("resources/escenarios");
+    private final Path rutaDirectorioJugadores = Paths.get("jugadores");
 
     public Modelo() {
-        rutaDirectorioEscenarios = Paths.get("recursos/escenarios");
-        rutaDirectorioJugadores = Paths.get("compilados/jugadores");
-        rutaDirectorioPartidas = Paths.get("compilados/partidas");
-        verificarYCrearDirectorios();
-    }
-
-    private void verificarYCrearDirectorios() {
         try {
-            if (Files.notExists(rutaDirectorioEscenarios)) {
-                Files.createDirectories(rutaDirectorioEscenarios);
-            }
-
-            if (Files.notExists(rutaDirectorioJugadores)) {
-                Files.createDirectories(rutaDirectorioJugadores);
-            }
-
-            if (Files.notExists(rutaDirectorioPartidas)) {
-                Files.createDirectories(rutaDirectorioPartidas);
-            }
+            if (Files.notExists(rutaDirectorioEscenarios)) Files.createDirectories(rutaDirectorioEscenarios);
+            if (Files.notExists(rutaDirectorioJugadores)) Files.createDirectories(rutaDirectorioJugadores);
         } catch (IOException e) {
-            System.err.println("Error al crear los directorios: " + e.getMessage());
+            System.err.println("Error al crear directorios: " + e.getMessage());
         }
     }
 
-    public void crearEscenario(String nombreEscenario, List<String> codigoEscenario) throws IOException {
-        Path rutaEscenario = rutaDirectorioEscenarios.resolve(nombreEscenario + ".txt");
-        Files.write(rutaEscenario, codigoEscenario);
-    }
-
-    public List<String> cargarEscenario(String nombreEscenario) throws IOException {
-        Path rutaEscenario = rutaDirectorioEscenarios.resolve(nombreEscenario + ".txt");
-        return Files.readAllLines(rutaEscenario);
-    }
-
     public void guardarJugador(Jugador jugador) throws IOException {
-        Path rutaJugador = rutaDirectorioJugadores.resolve(limpiarNombre(jugador.getNombre()) + ".bin");
-        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(rutaJugador))) {
+        Path ruta = rutaDirectorioJugadores.resolve(jugador.getNombre() + ".bin");
+        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(ruta))) {
             oos.writeObject(jugador);
         }
     }
 
     public Jugador cargarJugador(String nombre) throws IOException, ClassNotFoundException {
-        Path rutaJugador = rutaDirectorioJugadores.resolve(limpiarNombre(nombre) + ".bin");
-        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(rutaJugador))) {
+        Path ruta = rutaDirectorioJugadores.resolve(nombre + ".bin");
+        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(ruta))) {
             return (Jugador) ois.readObject();
         }
     }
 
     public boolean existeJugador(String nombre) {
-        Path rutaJugador = rutaDirectorioJugadores.resolve(limpiarNombre(nombre) + ".bin");
-        return Files.exists(rutaJugador);
+        return Files.exists(rutaDirectorioJugadores.resolve(nombre + ".bin"));
     }
 
-    public static String limpiarNombre(String nombre) {
-        return nombre.replaceAll("[^a-zA-Z0-9_-]", "_");
+    public List<String> cargarEscenario(String nombre) throws IOException {
+        return Files.readAllLines(rutaDirectorioEscenarios.resolve(nombre + ".txt"));
     }
 }

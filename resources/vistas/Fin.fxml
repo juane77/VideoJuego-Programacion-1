@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="src.controladores.FinController"
+      alignment="CENTER" spacing="20"
+      style="-fx-background-color: #ffe0b2;">
+
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <Label text="🎉 ¡Has terminado la partida! 🎉" style="-fx-font-size: 22px;" />
+    <Button fx:id="btnReiniciar" text="Volver al inicio" />
+    <Button fx:id="btnSalir" text="Salir del juego" />
+</VBox>
