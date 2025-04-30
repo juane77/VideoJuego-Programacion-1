@@ -1,80 +1,146 @@
-package src.controladores;
+package controladores;
 
 import javafx.fxml.FXML;
-import javafx.scene.input.KeyCode;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import src.App;
-import src.modelos.Escenario;
-import src.modelos.Modelo;
-import src.modelos.Jugador;
+import javafx.scene.layout.Pane;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import modelos.Escenario;
 
-public class JuegoController {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class JuegoController implements Initializable {
 
     @FXML
-    private GridPane grid;
+    private Pane panelJuego;
 
+    private final int TILE_SIZE = 40;
+
+    private Image imgSuelo = new Image(getClass().getResourceAsStream("/imagenes/suelo.png"));
+    private Image imgObstaculo = new Image(getClass().getResourceAsStream("/imagenes/obstaculo.png"));
+    private Image imgMeta = new Image(getClass().getResourceAsStream("/imagenes/meta.png"));
+    private Image imgJugador = new Image(getClass().getResourceAsStream("/imagenes/personaje.png"));
+    private Image imgMuro = new Image(getClass().getResourceAsStream("/imagenes/muro.png"));
+
+    private ImageView personajeView;
     private Escenario escenario;
-    private final Modelo modelo = new Modelo();
-    private final Jugador jugador = new Jugador("demo", "demo@gmail.com");
+    private int jugadorX;
+    private int jugadorY;
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        escenario = new Escenario("/escenarios/escenario1.txt");
+        int[] posJugador = escenario.getPosicionJugador();
+        jugadorY = posJugador[0];
+        jugadorX = posJugador[1];
+
+        dibujarEscenario();
+
+        personajeView = new ImageView(imgJugador);
+        personajeView.setFitWidth(TILE_SIZE);
+        personajeView.setFitHeight(TILE_SIZE);
+        personajeView.setLayoutX(jugadorX * TILE_SIZE);
+        personajeView.setLayoutY(jugadorY * TILE_SIZE);
+        panelJuego.getChildren().add(personajeView);
+
+        panelJuego.setFocusTraversable(true);
+        panelJuego.setOnKeyPressed(this::manejarMovimiento);
+        panelJuego.requestFocus();
+    }
+
+    private void dibujarEscenario() {
+        String[][] mapa = escenario.getMatriz();
+
+        for (int fila = 0; fila < escenario.getFilas(); fila++) {
+            for (int col = 0; col < escenario.getColumnas(); col++) {
+                ImageView tile = new ImageView();
+                String tipo = mapa[fila][col];
+
+                switch (tipo) {
+                    case "M" -> tile.setImage(imgMuro);
+                    case "O" -> tile.setImage(imgObstaculo);
+                    case "F" -> tile.setImage(imgMeta);
+                    case "J" -> tile.setImage(imgSuelo);
+                    default -> tile.setImage(imgSuelo);
+                }
+
+                tile.setFitWidth(TILE_SIZE);
+                tile.setFitHeight(TILE_SIZE);
+                tile.setLayoutX(col * TILE_SIZE);
+                tile.setLayoutY(fila * TILE_SIZE);
+                panelJuego.getChildren().add(tile);
+            }
+        }
+    }
+
+    private void manejarMovimiento(KeyEvent event) {
+        int dx = 0, dy = 0;
+        switch (event.getCode()) {
+            case UP, W -> dy = -1;
+            case DOWN, S -> dy = 1;
+            case LEFT, A -> dx = -1;
+            case RIGHT, D -> dx = 1;
+            default -> { return; }
+        }
+    
+        int nuevaX = jugadorX + dx;
+        int nuevaY = jugadorY + dy;
+    
+        if (nuevaX >= 0 && nuevaX < escenario.getColumnas() &&
+            nuevaY >= 0 && nuevaY < escenario.getFilas()) {
+    
+            String destino = escenario.getMatriz()[nuevaY][nuevaX];
+    
+            if (destino.equals("O")) {
+                cargarVistaFinMuerte();  // ✅ Si pisas obstáculo --> pantalla de muerte
+                return;
+            }
+    
+            if (!destino.equals("M")) {  // solo se mueve si no es muro
+                jugadorX = nuevaX;
+                jugadorY = nuevaY;
+                personajeView.setLayoutX(jugadorX * TILE_SIZE);
+                personajeView.setLayoutY(jugadorY * TILE_SIZE);
+    
+                if (destino.equals("F")) {
+                    cargarVistaFin();  // ✅ Si llegas a meta --> pantalla de victoria
+                }
+            }
+        }
+    }
+    
+
+    private void cargarVistaFin() {
         try {
-            var codigo = modelo.cargarEscenario("escenario1");
-            escenario = new Escenario("escenario1", codigo, jugador);
-            renderizar();
-            grid.requestFocus();
-        } catch (Exception e) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/Fin.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) panelJuego.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    public void manejarTecla(KeyEvent e) {
-        KeyCode code = e.getCode();
-        if (code == KeyCode.W || code == KeyCode.A || code == KeyCode.S || code == KeyCode.D) {
-            escenario.moverJugador(code.getName().charAt(0));
-            renderizar();
-
-            if (escenario.esJuegoTerminado()) {
-                App.mostrarVista("Fin.fxml");
-            }
-
-        } else if (code == KeyCode.ESCAPE) {
-            App.mostrarVista("Fin.fxml");
+    private void cargarVistaFinMuerte() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/FinMuerte.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) panelJuego.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-
-    private void renderizar() {
-        grid.getChildren().clear();
-        var mapa = escenario.obtenerEscenario();
-
-        for (int y = 0; y < mapa.size(); y++) {
-            String linea = mapa.get(y);
-            for (int x = 0; x < linea.length(); x++) {
-                char simbolo = linea.charAt(x);
-                Rectangle rect = new Rectangle(18, 18);
-                Text texto = new Text();
-
-                switch (simbolo) {
-                    case '|': rect.setFill(Color.GRAY); break;
-                    case 'O': rect.setFill(Color.CRIMSON); texto.setText("X"); break;
-                    case '@': rect.setFill(Color.LIGHTBLUE); texto.setText("@"); break;
-                    case 'F': rect.setFill(Color.LIGHTGREEN); texto.setText("F"); break;
-                    default: rect.setFill(Color.BEIGE); break;
-                }
-
-                texto.setFont(Font.font("Consolas", 14));
-                StackPane celda = new StackPane(rect, texto);
-                grid.add(celda, x, y);
-            }
-        }
-        grid.requestFocus();
-    }
+    
+    
 }

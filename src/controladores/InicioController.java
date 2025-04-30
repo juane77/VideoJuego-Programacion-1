@@ -1,67 +1,68 @@
-package src.controladores;
+package controladores;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.VBox;
-import src.App;
-import src.modelos.Jugador;
-import src.modelos.Modelo;
+import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class InicioController {
 
     @FXML
-    private VBox root;
+    private TextField txtNombre;
 
     @FXML
-    private TextField campoNombre;
-
-    @FXML
-    private TextField campoGmail;
+    private TextField txtGmail;
 
     @FXML
     private Button btnJugar;
 
-    private final Modelo modelo = new Modelo();
-
     @FXML
-    public void initialize() {
-        btnJugar.setOnAction(e -> {
-            String nombre = campoNombre.getText().trim();
-            String gmail = campoGmail.getText().trim();
+    private void initialize() {
+        btnJugar.setOnAction(event -> {
+            String nombre = txtNombre.getText().trim();
+            File jugadorFile = new File("jugadores/" + nombre + ".bin");
 
-            if (nombre.isEmpty() || gmail.isEmpty()) {
-                mostrarAlerta("Debes rellenar todos los campos");
-                return;
-            }
+            if (nombre.isEmpty()) return;
 
-            Jugador jugador;
-            if (modelo.existeJugador(nombre)) {
-                try {
-                    jugador = modelo.cargarJugador(nombre);
-                } catch (Exception ex) {
-                    mostrarAlerta("Error al cargar jugador existente");
-                    return;
+            if (!jugadorFile.exists()) {
+                // Mostrar campo de Gmail si no existe el jugador
+                txtGmail.setVisible(true);
+                txtGmail.setManaged(true);
+
+                String gmail = txtGmail.getText().trim();
+                if (!gmail.isEmpty()) {
+                    // Guardar nuevo jugador
+                    try (FileWriter writer = new FileWriter(jugadorFile)) {
+                        writer.write(nombre + ";" + gmail);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    cambiarAVistaJuego();
                 }
+
             } else {
-                jugador = new Jugador(nombre, gmail);
-                try {
-                    modelo.guardarJugador(jugador);
-                } catch (Exception ex) {
-                    mostrarAlerta("No se pudo guardar el nuevo jugador");
-                    return;
-                }
+                // Jugador ya existe, continuar
+                cambiarAVistaJuego();
             }
-
-            App.mostrarVista("Juego.fxml");
         });
     }
 
-    private void mostrarAlerta(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
+    private void cambiarAVistaJuego() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/Juego.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btnJugar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

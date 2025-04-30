@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class FinController implements Initializable {
+public class FinMuerteController implements Initializable {
 
     @FXML
     private Button botonVolver;
@@ -51,3 +51,4 @@ public class FinController implements Initializable {
         stage.close();
     }
 }
+

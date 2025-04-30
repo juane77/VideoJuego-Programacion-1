@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="src.controladores.InicioController"
-      alignment="CENTER" spacing="15" style="-fx-background-color: #f0f0f0;">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.InicioController" prefWidth="800" prefHeight="600">
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
+    <!-- Fondo pixel art -->
+    <ImageView fitWidth="800" fitHeight="600" layoutX="0" layoutY="0">
+        <image>
+            <Image url="@../imagenes/fondo_inicio.png" />
+        </image>
+    </ImageView>
 
-    <Label text="Inicio de Sesión" style="-fx-font-size: 24px; -fx-text-fill: #333;" />
-    <TextField fx:id="campoNombre" promptText="Nombre del jugador" />
-    <TextField fx:id="campoGmail" promptText="Correo electrónico" />
-    <Button fx:id="btnJugar" text="Jugar" />
-</VBox>
+    <!-- Título -->
+    <Label layoutX="220" layoutY="80" prefWidth="360" text="¡Bienvenido al Juego!" style="
+        -fx-font-size: 28px;
+        -fx-font-family: 'Courier New';
+        -fx-font-weight: bold;
+        -fx-text-fill: white;
+        -fx-effect: dropshadow(gaussian, black, 5, 0.5, 0, 0);
+        -fx-alignment: center;
+    " />
+
+    <!-- Campo nombre -->
+    <TextField fx:id="txtNombre" layoutX="270" layoutY="200" prefWidth="260" promptText="Introduce tu nombre" />
+
+    <!-- Campo gmail (oculto al principio) -->
+    <TextField fx:id="txtGmail" layoutX="270" layoutY="250" prefWidth="260" promptText="Introduce tu Gmail" visible="false" managed="false"/>
+
+    <!-- Botón jugar -->
+    <Button fx:id="btnJugar" layoutX="310" layoutY="320" prefWidth="180" prefHeight="40" text="JUGAR" style="
+        -fx-font-size: 18px;
+        -fx-font-family: 'Courier New';
+        -fx-background-color: #ffffffcc;
+        -fx-border-color: black;
+        -fx-border-width: 3px;
+        -fx-text-fill: black;
+        -fx-font-weight: bold;
+    " />
+</AnchorPane>

@@ -1,34 +1,35 @@
-package src.controladores;
+package controladores;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
-import javafx.animation.PauseTransition;
-import src.App;
+import javafx.scene.control.Button;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 public class SplashController {
 
     @FXML
-    private StackPane root;
+    private Button btnContinuar;
 
     @FXML
-    public void initialize() {
-        PauseTransition pausa = new PauseTransition(Duration.seconds(2.5));
-        pausa.setOnFinished(e -> App.mostrarVista("Inicio.fxml"));
-        pausa.play();
-
-        root.setOnKeyPressed(this::irInicio);
-        root.setOnMouseClicked(this::irInicio);
-        root.requestFocus();
+    private void initialize() {
+        // Esto se ejecuta al cargar la vista
+        btnContinuar.setOnAction(this::cambiarAVistaInicio);
     }
 
-    private void irInicio(KeyEvent e) {
-        App.mostrarVista("Inicio.fxml");
+    private void cambiarAVistaInicio(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/Inicio.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) btnContinuar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void irInicio(MouseEvent e) {
-        App.mostrarVista("Inicio.fxml");
-    }
 }

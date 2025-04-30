@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="src.controladores.SplashController"
-           fx:id="root" style="-fx-background-color: linear-gradient(to bottom, #d0e1f9, #4d648d);">
-    <Label text="🎮 Bienvenido al Juego 🎮" textFill="white">
-        <font>
-            <Font name="Arial Bold" size="36"/>
-        </font>
-    </Label>
-</StackPane>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.SplashController" prefWidth="800" prefHeight="600">
+    
+    <!-- Fondo pixel art -->
+    <ImageView fitWidth="800" fitHeight="600" layoutX="0" layoutY="0">
+        <image>
+            <Image url="@../imagenes/fondo_splash.png" preserveRatio="false" />
+        </image>
+    </ImageView>
+
+    <!-- Botón para pasar a la vista de Inicio -->
+    <Button fx:id="btnContinuar" layoutX="325" layoutY="450" prefWidth="150" prefHeight="50" text="¡EMPEZAR!" style="
+        -fx-font-size: 18px;
+        -fx-font-family: 'Courier New';
+        -fx-background-color: #ffffffcc;
+        -fx-border-color: black;
+        -fx-border-width: 3px;
+        -fx-text-fill: black;
+        -fx-font-weight: bold;
+    " />
+
+</AnchorPane>

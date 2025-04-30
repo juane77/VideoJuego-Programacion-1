@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml"
-          fx:controller="src.controladores.JuegoController"
-          fx:id="grid"
-          onKeyPressed="#manejarTecla"
-          focusTraversable="true"
-          alignment="CENTER"
-          hgap="2" vgap="2"
-          style="-fx-background-color: #eeeeee;">
-</GridPane>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.JuegoController" prefWidth="800" prefHeight="600">
+
+    <!-- Panel donde se pintará el escenario -->
+    <Pane fx:id="panelJuego" layoutX="0" layoutY="0" prefWidth="800" prefHeight="600" />
+
+</AnchorPane>

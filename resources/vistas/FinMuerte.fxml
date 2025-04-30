@@ -6,21 +6,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controladores.FinController"
+            fx:controller="controladores.FinMuerteController"
             prefWidth="800" prefHeight="600"
             style="-fx-background-color: black;">
 
-    <!-- Fondo (cargado desde código) -->
+    <!-- Fondo (se carga por código) -->
     <ImageView fx:id="fondo"
                layoutX="0" layoutY="0"
                fitWidth="800" fitHeight="600"
                preserveRatio="false"
                pickOnBounds="true" />
 
-    <!-- Título grande -->
-    <Label layoutX="200" layoutY="120"
-           text="¡¡VICTORIA!!"
-           style="-fx-text-fill: #00FF00; -fx-font-size: 60px; -fx-font-family: 'Courier New'; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, black, 10, 0.5, 0, 0);" />
+    <!-- Título de muerte -->
+    <Label layoutX="180" layoutY="120"
+           text="¡¡HAS MUERTO!!"
+           style="-fx-text-fill: #FF0000; -fx-font-size: 55px; -fx-font-family: 'Courier New'; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, black, 10, 0.5, 0, 0);" />
 
     <!-- Botón Volver al Inicio -->
     <Button fx:id="botonVolver"
@@ -29,11 +29,10 @@
             text="Volver al Inicio"
             style="-fx-font-size: 18px; -fx-font-family: 'Courier New'; -fx-background-color: #404040; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2px;" />
 
-    <!-- Botón Salir del Juego -->
+    <!-- Botón Salir -->
     <Button fx:id="botonSalir"
             layoutX="430" layoutY="300"
             prefWidth="150" prefHeight="50"
             text="Salir"
             style="-fx-font-size: 18px; -fx-font-family: 'Courier New'; -fx-background-color: #ff4040; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2px;" />
-
 </AnchorPane>
