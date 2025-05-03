@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import modelos.Escenario;
+import base_datos.GestorBaseDatos;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +21,9 @@ public class JuegoController implements Initializable {
 
     @FXML
     private Pane panelJuego;
+
+    private long tiempoInicio;
+    private long tiempoFin;
 
     private final int TILE_SIZE = 40;
 
@@ -36,6 +40,9 @@ public class JuegoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+      
+        tiempoInicio = System.currentTimeMillis();
+
         escenario = new Escenario("/escenarios/escenario1.txt");
         int[] posJugador = escenario.getPosicionJugador();
         jugadorY = posJugador[0];
@@ -53,6 +60,15 @@ public class JuegoController implements Initializable {
         panelJuego.setFocusTraversable(true);
         panelJuego.setOnKeyPressed(this::manejarMovimiento);
         panelJuego.requestFocus();
+    }
+
+    public void jugadorHaGanado() {
+        tiempoFin = System.currentTimeMillis();
+        long tiempoTotal = (tiempoFin - tiempoInicio) / 1000;
+
+        String nombreJugador = "Jugador";
+
+        GestorBaseDatos.insertarTiempo(nombreJugador, tiempoTotal);
     }
 
     private void dibujarEscenario() {
@@ -89,33 +105,33 @@ public class JuegoController implements Initializable {
             case RIGHT, D -> dx = 1;
             default -> { return; }
         }
-    
+
         int nuevaX = jugadorX + dx;
         int nuevaY = jugadorY + dy;
-    
+
         if (nuevaX >= 0 && nuevaX < escenario.getColumnas() &&
             nuevaY >= 0 && nuevaY < escenario.getFilas()) {
-    
+
             String destino = escenario.getMatriz()[nuevaY][nuevaX];
-    
+
             if (destino.equals("O")) {
-                cargarVistaFinMuerte();  // ✅ Si pisas obstáculo --> pantalla de muerte
+                cargarVistaFinMuerte();  
                 return;
             }
-    
-            if (!destino.equals("M")) {  // solo se mueve si no es muro
+
+            if (!destino.equals("M")) { 
                 jugadorX = nuevaX;
                 jugadorY = nuevaY;
                 personajeView.setLayoutX(jugadorX * TILE_SIZE);
                 personajeView.setLayoutY(jugadorY * TILE_SIZE);
-    
+
                 if (destino.equals("F")) {
-                    cargarVistaFin();  // ✅ Si llegas a meta --> pantalla de victoria
+                    jugadorHaGanado();   
+                    cargarVistaFin();     
                 }
             }
         }
     }
-    
 
     private void cargarVistaFin() {
         try {
@@ -129,6 +145,7 @@ public class JuegoController implements Initializable {
             e.printStackTrace();
         }
     }
+
     private void cargarVistaFinMuerte() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/FinMuerte.fxml"));
@@ -141,6 +158,4 @@ public class JuegoController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    
 }

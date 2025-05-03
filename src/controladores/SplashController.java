@@ -1,10 +1,13 @@
 package controladores;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import src.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -14,8 +17,11 @@ public class SplashController {
     private Button btnContinuar;
 
     @FXML
+    private Button btnTop10;
+
+    @FXML
     private void initialize() {
-        // Esto se ejecuta al cargar la vista
+
         btnContinuar.setOnAction(this::cambiarAVistaInicio);
     }
 
@@ -32,4 +38,19 @@ public class SplashController {
         }
     }
 
+    @FXML
+    public void abrirTop10(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/Top10.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Top 10 Mejores Tiempos");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

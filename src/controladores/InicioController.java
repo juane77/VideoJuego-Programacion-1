@@ -31,13 +31,13 @@ public class InicioController {
             if (nombre.isEmpty()) return;
 
             if (!jugadorFile.exists()) {
-                // Mostrar campo de Gmail si no existe el jugador
+               
                 txtGmail.setVisible(true);
                 txtGmail.setManaged(true);
 
                 String gmail = txtGmail.getText().trim();
                 if (!gmail.isEmpty()) {
-                    // Guardar nuevo jugador
+                    
                     try (FileWriter writer = new FileWriter(jugadorFile)) {
                         writer.write(nombre + ";" + gmail);
                     } catch (IOException e) {
@@ -48,7 +48,7 @@ public class InicioController {
                 }
 
             } else {
-                // Jugador ya existe, continuar
+             
                 cambiarAVistaJuego();
             }
         });
@@ -64,5 +64,15 @@ public class InicioController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void abrirTop10() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/Top10.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Top 10 Mejores Tiempos");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }
