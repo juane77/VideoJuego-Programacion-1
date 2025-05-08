@@ -9,13 +9,25 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Modelo {
+    private static Jugador jugadorActual;
+
+    public static void setJugador(Jugador jugador) {
+        jugadorActual = jugador;
+    }
+
+    public static Jugador getJugador() {
+        return jugadorActual;
+    }
+
     private final Path rutaDirectorioEscenarios = Paths.get("resources/escenarios");
     private final Path rutaDirectorioJugadores = Paths.get("jugadores");
 
     public Modelo() {
         try {
-            if (Files.notExists(rutaDirectorioEscenarios)) Files.createDirectories(rutaDirectorioEscenarios);
-            if (Files.notExists(rutaDirectorioJugadores)) Files.createDirectories(rutaDirectorioJugadores);
+            if (Files.notExists(rutaDirectorioEscenarios))
+                Files.createDirectories(rutaDirectorioEscenarios);
+            if (Files.notExists(rutaDirectorioJugadores))
+                Files.createDirectories(rutaDirectorioJugadores);
         } catch (IOException e) {
             System.err.println("Error al crear directorios: " + e.getMessage());
         }

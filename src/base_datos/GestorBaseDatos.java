@@ -23,7 +23,7 @@ public class GestorBaseDatos {
     }
 
     public static void insertarTiempo(String nombre, long tiempo) {
-        String sql = "INSERT INTO tiempos (nombre, tiempo) VALUES (?, ?)";
+        String sql = "INSERT INTO tiempos (nombre_jugador, tiempo_segundos) VALUES (?, ?)";
     
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tiempos.db");
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

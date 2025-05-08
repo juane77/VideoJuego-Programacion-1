@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import modelos.Escenario;
 import base_datos.GestorBaseDatos;
+import src.modelos.Modelo;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,7 +41,6 @@ public class JuegoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-      
         tiempoInicio = System.currentTimeMillis();
 
         escenario = new Escenario("/escenarios/escenario1.txt");
@@ -66,8 +66,7 @@ public class JuegoController implements Initializable {
         tiempoFin = System.currentTimeMillis();
         long tiempoTotal = (tiempoFin - tiempoInicio) / 1000;
 
-        String nombreJugador = "Jugador";
-
+        String nombreJugador = Modelo.getJugador().getNombre();  // ✅ Usar el nombre real
         GestorBaseDatos.insertarTiempo(nombreJugador, tiempoTotal);
     }
 

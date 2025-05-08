@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.InicioController" prefWidth="800" prefHeight="600">
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.InicioController"
+           prefWidth="800" prefHeight="600" style="-fx-background-color: black;">
 
     <!-- Fondo pixel art -->
-    <ImageView fitWidth="800" fitHeight="600" layoutX="0" layoutY="0">
+    <ImageView fitWidth="800" fitHeight="600">
         <image>
             <Image url="@../imagenes/fondo_inicio.png" />
         </image>
     </ImageView>
 
-    <!-- Título -->
-    <Label layoutX="220" layoutY="80" prefWidth="360" text="¡Bienvenido al Juego!" style="
-        -fx-font-size: 28px;
-        -fx-font-family: 'Courier New';
-        -fx-font-weight: bold;
-        -fx-text-fill: white;
-        -fx-effect: dropshadow(gaussian, black, 5, 0.5, 0, 0);
-        -fx-alignment: center;
-    " />
+    <!-- Oscurecimiento sutil -->
+    <Pane prefWidth="800" prefHeight="600" style="-fx-background-color: rgba(0,0,0,0.5);" />
 
-    <!-- Campo nombre -->
-    <TextField fx:id="txtNombre" layoutX="270" layoutY="200" prefWidth="260" promptText="Introduce tu nombre" />
+    <!-- Contenido centrado -->
+    <VBox alignment="CENTER" spacing="25">
+        <!-- Título -->
+        <Label text="👤 INGRESAR JUGADOR"
+               style="-fx-font-size: 32px; -fx-text-fill: white; -fx-font-family: 'Courier New'; -fx-font-weight: bold;">
+            <effect>
+                <DropShadow radius="6.0" color="lime" />
+            </effect>
+        </Label>
 
-    <!-- Campo gmail (oculto al principio) -->
-    <TextField fx:id="txtGmail" layoutX="270" layoutY="250" prefWidth="260" promptText="Introduce tu Gmail" visible="false" managed="false"/>
+        <!-- Campos de entrada -->
+        <VBox spacing="15" alignment="CENTER">
+            <TextField fx:id="txtNombre" promptText="Nombre" prefWidth="200" style="
+                -fx-font-size: 16px; -fx-font-family: 'Courier New'; -fx-background-radius: 10; -fx-background-color: white;" />
 
-    <!-- Botón jugar -->
-    <Button fx:id="btnJugar" layoutX="310" layoutY="320" prefWidth="180" prefHeight="40" text="JUGAR" style="
-        -fx-font-size: 18px;
-        -fx-font-family: 'Courier New';
-        -fx-background-color: #ffffffcc;
-        -fx-border-color: black;
-        -fx-border-width: 3px;
-        -fx-text-fill: black;
-        -fx-font-weight: bold;
-    " />
-</AnchorPane>
+            <TextField fx:id="txtGmail" promptText="Gmail" visible="false" managed="false" prefWidth="200" style="
+                -fx-font-size: 16px; -fx-font-family: 'Courier New'; -fx-background-radius: 10; -fx-background-color: white;" />
+        </VBox>
+
+        <!-- Botón jugar -->
+        <Button fx:id="btnJugar" text="🎮 JUGAR" prefWidth="200" prefHeight="50" style="
+            -fx-font-size: 18px; 
+            -fx-font-family: 'Courier New'; 
+            -fx-background-color: white; 
+            -fx-text-fill: black; 
+            -fx-font-weight: bold; 
+            -fx-background-radius: 12; 
+            -fx-border-color: black; 
+            -fx-border-width: 2;" />
+    </VBox>
+</StackPane>
