@@ -6,8 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class SplashController {
 
@@ -15,8 +19,33 @@ public class SplashController {
     private Button btnContinuar;
 
     @FXML
+    private MediaView mediaView;
+
+    @FXML
     public void initialize() {
+        reproducirVideoFondo();
+
         btnContinuar.setOnAction(event -> cambiarAVistaInicio());
+    }
+
+    private void reproducirVideoFondo() {
+        try {
+            URL mediaUrl = getClass().getResource("/videos/fondo.mp4");
+            if (mediaUrl == null) {
+                System.err.println("No se encontró el video en /videos/fondo.mp4");
+                return;
+            }
+
+            Media media = new Media(mediaUrl.toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.setMute(true); // Opcional: silenciar
+            mediaPlayer.play();
+
+            mediaView.setMediaPlayer(mediaPlayer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void cambiarAVistaInicio() {

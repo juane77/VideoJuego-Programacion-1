@@ -5,24 +5,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.media.MediaView?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.SplashController"
            prefWidth="800" prefHeight="600"
            style="-fx-background-color: black;">
 
-    <!-- Fondo Pixel Art -->
-    <ImageView fitWidth="800" fitHeight="600">
-        <image>
-            <Image url="@../imagenes/fondo_splash.png" />
-        </image>
-    </ImageView>
+    <!-- Video de fondo -->
+    <MediaView fx:id="mediaView" fitWidth="800" fitHeight="600" preserveRatio="false"/>
 
-    <!-- Capa semitransparente para oscurecer ligeramente el fondo -->
+    <!-- Capa semitransparente -->
     <Pane prefWidth="800" prefHeight="600" style="-fx-background-color: rgba(0,0,0,0.4);" />
 
-    <!-- Contenido principal centrado -->
-    <VBox alignment="CENTER" spacing="40">
-        <!-- Título con sombra brillante -->
+    <!-- Contenedor principal -->
+    <VBox alignment="TOP_CENTER" spacing="40" style="-fx-padding: 40 0 0 0;">
+        
+        <!-- Título -->
         <Label text="★ SUPER PIXEL JUMP ★" textAlignment="CENTER"
                style="-fx-text-fill: white; -fx-font-size: 48px; -fx-font-family: 'Courier New'; -fx-font-weight: bold;">
             <effect>
@@ -30,15 +28,15 @@
             </effect>
         </Label>
 
-        <!-- Botones -->
-        <VBox spacing="20" alignment="CENTER">
+        <!-- Botones alineados horizontalmente -->
+        <HBox spacing="60" alignment="CENTER">
             <Button fx:id="btnContinuar" text="🎮 ¡EMPEZAR!"
                     prefWidth="250" prefHeight="60"
                     style="-fx-font-size: 20px; -fx-font-family: 'Courier New'; -fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 3px; -fx-background-radius: 12;" />
 
-            <Button fx:id="btnTop10" text="🏆 VER TOP 10"
-                    prefWidth="250" prefHeight="60" onAction="#abrirTop10"
+            <Button fx:id="btnTop10" text="🏆 VER TOP 10" onAction="#abrirTop10"
+                    prefWidth="250" prefHeight="60"
                     style="-fx-font-size: 20px; -fx-font-family: 'Courier New'; -fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 3px; -fx-background-radius: 12;" />
-        </VBox>
+        </HBox>
     </VBox>
 </StackPane>
