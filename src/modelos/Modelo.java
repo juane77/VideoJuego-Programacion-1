@@ -54,4 +54,15 @@ public class Modelo {
     public List<String> cargarEscenario(String nombre) throws IOException {
         return Files.readAllLines(rutaDirectorioEscenarios.resolve(nombre + ".txt"));
     }
+
+    // Ruta del escenario seleccionado dinámicamente
+    private static String rutaEscenario = "resources/escenarios/escenario1.txt";
+
+    public static void setRutaEscenario(String ruta) {
+        rutaEscenario = ruta;
+    }
+
+    public static String getRutaEscenario() {
+        return rutaEscenario;
+    }
 }

@@ -26,7 +26,7 @@ public class JuegoController implements Initializable {
     private long tiempoInicio;
     private long tiempoFin;
 
-    private final int TILE_SIZE = 40;
+    private int TILE_SIZE = 40;
 
     private Image imgSuelo = new Image(getClass().getResourceAsStream("/imagenes/suelo.png"));
     private Image imgObstaculo = new Image(getClass().getResourceAsStream("/imagenes/obstaculo.png"));
@@ -43,7 +43,13 @@ public class JuegoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         tiempoInicio = System.currentTimeMillis();
 
-        escenario = new Escenario("/escenarios/escenario1.txt");
+        escenario = new Escenario("/" + Modelo.getRutaEscenario());
+
+        int filas = escenario.getFilas();
+        int columnas = escenario.getColumnas();
+
+        ajustarTileSize(filas, columnas);
+
         int[] posJugador = escenario.getPosicionJugador();
         jugadorY = posJugador[0];
         jugadorX = posJugador[1];
@@ -57,16 +63,23 @@ public class JuegoController implements Initializable {
         personajeView.setLayoutY(jugadorY * TILE_SIZE);
         panelJuego.getChildren().add(personajeView);
 
+        panelJuego.setPrefSize(columnas * TILE_SIZE, filas * TILE_SIZE);
         panelJuego.setFocusTraversable(true);
         panelJuego.setOnKeyPressed(this::manejarMovimiento);
         panelJuego.requestFocus();
+    }
+
+    private void ajustarTileSize(int filas, int columnas) {
+        int maxAncho = 800;
+        int maxAlto = 600;
+        TILE_SIZE = Math.min(maxAncho / columnas, maxAlto / filas);
     }
 
     public void jugadorHaGanado() {
         tiempoFin = System.currentTimeMillis();
         long tiempoTotal = (tiempoFin - tiempoInicio) / 1000;
 
-        String nombreJugador = Modelo.getJugador().getNombre();  // ✅ Usar el nombre real
+        String nombreJugador = Modelo.getJugador().getNombre();
         GestorBaseDatos.insertarTiempo(nombreJugador, tiempoTotal);
     }
 
@@ -114,19 +127,19 @@ public class JuegoController implements Initializable {
             String destino = escenario.getMatriz()[nuevaY][nuevaX];
 
             if (destino.equals("O")) {
-                cargarVistaFinMuerte();  
+                cargarVistaFinMuerte();
                 return;
             }
 
-            if (!destino.equals("M")) { 
+            if (!destino.equals("M")) {
                 jugadorX = nuevaX;
                 jugadorY = nuevaY;
                 personajeView.setLayoutX(jugadorX * TILE_SIZE);
                 personajeView.setLayoutY(jugadorY * TILE_SIZE);
 
                 if (destino.equals("F")) {
-                    jugadorHaGanado();   
-                    cargarVistaFin();     
+                    jugadorHaGanado();
+                    cargarVistaFin();
                 }
             }
         }

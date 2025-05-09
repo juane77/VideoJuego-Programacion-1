@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.JuegoController" prefWidth="800" prefHeight="600">
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="controladores.JuegoController"
+            fitToWidth="true" fitToHeight="true" pannable="true" prefWidth="800" prefHeight="600"
+            style="-fx-background-color: black;">
+    
+    <AnchorPane>
+        <Pane fx:id="panelJuego" layoutX="0" layoutY="0" style="-fx-background-color: black;" />
+    </AnchorPane>
 
-    <!-- Panel donde se pintará el escenario -->
-    <Pane fx:id="panelJuego" layoutX="0" layoutY="0" prefWidth="800" prefHeight="600" />
+</ScrollPane>
 
-</AnchorPane>

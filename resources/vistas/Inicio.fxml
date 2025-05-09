@@ -20,6 +20,7 @@
 
     <!-- Contenido centrado -->
     <VBox alignment="CENTER" spacing="25">
+
         <!-- Título -->
         <Label text="👤 INGRESAR JUGADOR"
                style="-fx-font-size: 32px; -fx-text-fill: white; -fx-font-family: 'Courier New'; -fx-font-weight: bold;">
@@ -47,5 +48,14 @@
             -fx-background-radius: 12; 
             -fx-border-color: black; 
             -fx-border-width: 2;" />
+
+        <!-- Botones de escenario -->
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="📜 Elige escenario:" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Courier New';"/>
+            <Button fx:id="btnEscenario1" text="Escenario 1" prefWidth="180" style="-fx-font-size: 16px; -fx-font-family: 'Courier New'; -fx-background-radius: 10;" />
+            <Button fx:id="btnEscenario2" text="Escenario 2" prefWidth="180" style="-fx-font-size: 16px; -fx-font-family: 'Courier New'; -fx-background-radius: 10;" />
+            <Button fx:id="btnEscenario3" text="Escenario 3" prefWidth="180" style="-fx-font-size: 16px; -fx-font-family: 'Courier New'; -fx-background-radius: 10;" />
+            <Button fx:id="btnEscenario4" text="Escenario 4" prefWidth="180" style="-fx-font-size: 16px; -fx-font-family: 'Courier New'; -fx-background-radius: 10;" />
+        </VBox>
     </VBox>
 </StackPane>

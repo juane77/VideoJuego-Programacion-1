@@ -25,7 +25,25 @@ public class InicioController {
     private Button btnJugar;
 
     @FXML
+    private Button btnEscenario1;
+    @FXML
+    private Button btnEscenario2;
+    @FXML
+    private Button btnEscenario3;
+    @FXML
+    private Button btnEscenario4;
+
+    private String escenarioSeleccionado = "escenarios/escenario1.txt"; // valor por defecto
+
+    @FXML
     private void initialize() {
+        // Botones para elegir escenario
+        btnEscenario1.setOnAction(e -> escenarioSeleccionado = "escenarios/escenario1.txt");
+        btnEscenario2.setOnAction(e -> escenarioSeleccionado = "escenarios/escenario2.txt");
+        btnEscenario3.setOnAction(e -> escenarioSeleccionado = "escenarios/escenario3.txt");
+        btnEscenario4.setOnAction(e -> escenarioSeleccionado = "escenarios/escenario4.txt");
+
+        // Botón jugar
         btnJugar.setOnAction(event -> {
             String nombre = txtNombre.getText().trim();
             File jugadorFile = new File("jugadores/" + nombre + ".bin");
@@ -45,10 +63,12 @@ public class InicioController {
                     }
 
                     Modelo.setJugador(new Jugador(nombre, gmail));
+                    Modelo.setRutaEscenario(escenarioSeleccionado);
                     cambiarAVistaJuego();
                 }
             } else {
                 Modelo.setJugador(new Jugador(nombre, "placeholder@email.com"));
+                Modelo.setRutaEscenario(escenarioSeleccionado);
                 cambiarAVistaJuego();
             }
         });

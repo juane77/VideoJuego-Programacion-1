@@ -8,13 +8,15 @@ import java.util.List;
 
 public class Escenario {
 
-    private final int filas = 15;
-    private final int columnas = 20;
+    private int filas;
+    private int columnas;
     private String[][] matriz;
 
     public Escenario(String rutaEscenario) {
-        matriz = new String[filas][columnas];
         List<String> lineas = cargarLineas(rutaEscenario);
+        this.filas = lineas.size();
+        this.columnas = calcularColumnas(lineas);
+        this.matriz = new String[filas][columnas];
         generarEscenario(lineas);
     }
 
@@ -30,6 +32,25 @@ public class Escenario {
             e.printStackTrace();
         }
         return lineas;
+    }
+
+    private int calcularColumnas(List<String> lineas) {
+        int maxCols = 0;
+        for (String linea : lineas) {
+            int count = 0;
+            int j = 0;
+            while (j < linea.length()) {
+                int cantidad = 0;
+                while (j < linea.length() && Character.isDigit(linea.charAt(j))) {
+                    cantidad = cantidad * 10 + (linea.charAt(j) - '0');
+                    j++;
+                }
+                j++; // saltar tipo
+                count += cantidad;
+            }
+            maxCols = Math.max(maxCols, count);
+        }
+        return maxCols;
     }
 
     private void generarEscenario(List<String> codigoEscenario) {
@@ -48,12 +69,12 @@ public class Escenario {
 
                 for (int k = 0; k < cantidad && col < columnas; k++) {
                     switch (tipo) {
-                        case 'E' -> matriz[i][col++] = "E"; // suelo
-                        case 'O' -> matriz[i][col++] = "O"; // obstáculo
-                        case 'F' -> matriz[i][col++] = "F"; // meta
-                        case 'M' -> matriz[i][col++] = "M"; // muro
-                        case 'J' -> matriz[i][col++] = "E"; // el jugador se dibuja aparte
-                        default -> matriz[i][col++] = "E"; // por defecto, suelo
+                        case 'E' -> matriz[i][col++] = "E";
+                        case 'O' -> matriz[i][col++] = "O";
+                        case 'F' -> matriz[i][col++] = "F";
+                        case 'M' -> matriz[i][col++] = "M";
+                        case 'J' -> matriz[i][col++] = "J";
+                        default -> matriz[i][col++] = "E";
                     }
                 }
             }
@@ -79,13 +100,11 @@ public class Escenario {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 if ("J".equals(matriz[i][j])) {
-                    matriz[i][j] = "E"; // LIMPIAR para que no pinte un tile suelto
+                    matriz[i][j] = "E";
                     return new int[]{i, j};
                 }
             }
         }
-        return new int[]{1, 1}; // por defecto
+        return new int[]{1, 1};
     }
-    
-    
 }
