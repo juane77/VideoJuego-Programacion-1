@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import util.ReproductorMusica;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +25,7 @@ public class SplashController {
     @FXML
     public void initialize() {
         reproducirVideoFondo();
+        ReproductorMusica.reproducir("/sonidos/musica_menu.mp3");
 
         btnContinuar.setOnAction(event -> cambiarAVistaInicio());
     }
@@ -39,7 +41,7 @@ public class SplashController {
             Media media = new Media(mediaUrl.toString());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.setMute(true); // Opcional: silenciar
+            mediaPlayer.setMute(true); // Silenciar si ya hay música separada
             mediaPlayer.play();
 
             mediaView.setMediaPlayer(mediaPlayer);

@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import modelos.Escenario;
 import base_datos.GestorBaseDatos;
 import src.modelos.Modelo;
+import util.ReproductorMusica;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,13 +42,14 @@ public class JuegoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tiempoInicio = System.currentTimeMillis();
+        // 🎵 Reproducir música de fondo del juego
+        ReproductorMusica.reproducir("/sonidos/musica_juego.mp3");
 
+        tiempoInicio = System.currentTimeMillis();
         escenario = new Escenario("/" + Modelo.getRutaEscenario());
 
         int filas = escenario.getFilas();
         int columnas = escenario.getColumnas();
-
         ajustarTileSize(filas, columnas);
 
         int[] posJugador = escenario.getPosicionJugador();
@@ -77,10 +79,12 @@ public class JuegoController implements Initializable {
 
     public void jugadorHaGanado() {
         tiempoFin = System.currentTimeMillis();
-        long tiempoTotal = (tiempoFin - tiempoInicio) / 1000;
+        double tiempoTotal = (tiempoFin - tiempoInicio) / 1000.0;
 
         String nombreJugador = Modelo.getJugador().getNombre();
-        GestorBaseDatos.insertarTiempo(nombreJugador, tiempoTotal);
+        String escenarioActual = Modelo.getRutaEscenario();
+
+        GestorBaseDatos.insertarTiempo(nombreJugador, tiempoTotal, escenarioActual);
     }
 
     private void dibujarEscenario() {

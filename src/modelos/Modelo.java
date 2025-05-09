@@ -55,8 +55,8 @@ public class Modelo {
         return Files.readAllLines(rutaDirectorioEscenarios.resolve(nombre + ".txt"));
     }
 
-    // Ruta del escenario seleccionado dinámicamente
-    private static String rutaEscenario = "resources/escenarios/escenario1.txt";
+    // ✅ Ruta del escenario que se usa en el juego
+    private static String rutaEscenario = "escenarios/escenario1.txt";
 
     public static void setRutaEscenario(String ruta) {
         rutaEscenario = ruta;

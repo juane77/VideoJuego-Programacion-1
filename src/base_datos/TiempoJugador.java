@@ -1,12 +1,10 @@
-// filepath: c:\Users\ferna\Programacion\Programación 3 Trimestre\VideojuegoProgramacion\VideoJuego-Programacion-1\src\base_datos\TiempoJugador.java
 package base_datos;
-
 
 public class TiempoJugador {
     private String nombreJugador;
-    private long tiempoSegundos;
+    private double tiempoSegundos; // CAMBIADO a double
 
-    public TiempoJugador(String nombreJugador, long tiempoSegundos) {
+    public TiempoJugador(String nombreJugador, double tiempoSegundos) {
         this.nombreJugador = nombreJugador;
         this.tiempoSegundos = tiempoSegundos;
     }
@@ -15,7 +13,7 @@ public class TiempoJugador {
         return nombreJugador;
     }
 
-    public long getTiempoSegundos() {
+    public double getTiempoSegundos() {
         return tiempoSegundos;
     }
 }
