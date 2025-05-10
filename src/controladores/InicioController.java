@@ -20,9 +20,23 @@ public class InicioController {
     @FXML private TextField txtGmail;
     @FXML private Button btnJugar;
 
+    @FXML private Button btnEscenario1;
+    @FXML private Button btnEscenario2;
+    @FXML private Button btnEscenario3;
+    @FXML private Button btnEscenario4;
+
     @FXML
     private void initialize() {
         ReproductorMusica.reproducir("/sonidos/musica_menu.mp3");
+
+        // Escenario por defecto
+        Modelo.setRutaEscenario("escenarios/escenario1.txt");
+
+        // Configurar los botones de escenario
+        btnEscenario1.setOnAction(e -> Modelo.setRutaEscenario("escenarios/escenario1.txt"));
+        btnEscenario2.setOnAction(e -> Modelo.setRutaEscenario("escenarios/escenario2.txt"));
+        btnEscenario3.setOnAction(e -> Modelo.setRutaEscenario("escenarios/escenario3.txt"));
+        btnEscenario4.setOnAction(e -> Modelo.setRutaEscenario("escenarios/escenario4.txt"));
 
         btnJugar.setOnAction(event -> {
             String nombre = txtNombre.getText().trim();
